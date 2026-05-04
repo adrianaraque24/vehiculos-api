@@ -15,6 +15,12 @@ let vehiculos = [
 // Generador de IDs simples
 let idActual = 103;
 
+let inspecciones = [
+    // El 'vehiculoId' es nuestra "llave foránea" que conecta ambas tablas
+    { id: 1, vehiculoId: 101, fecha: "2026-05-04", resultado: "Aprobado", observaciones: "Frenos en buen estado" }
+];
+let idInspeccionActual = 2;
+
 // ==========================================
 // ENDPOINTS (CRUD)
 // ==========================================
@@ -80,6 +86,38 @@ app.delete('/api/Vehiculos/:id', (req, res) => {
     } else {
         res.status(404).json({ error: "Vehículo no encontrado para eliminar" });
     }
+});
+
+// ==========================================
+// ENDPOINTS PARA INSPECCIONES
+// ==========================================
+
+// GET /api/Inspecciones -> Obtener TODAS las inspecciones de todos los vehículos
+app.get('/api/Inspecciones', (req, res) => {
+    res.json(inspecciones);
+});
+
+// GET /api/Inspecciones/vehiculo/:id -> Obtener las inspecciones de UN vehículo en específico
+app.get('/api/Inspecciones/vehiculo/:id', (req, res) => {
+    const vehiculoId = parseInt(req.params.id);
+    
+    // Filtramos para devolver solo las inspecciones que coincidan con el ID del vehículo
+    const historial = inspecciones.filter(insp => insp.vehiculoId === vehiculoId);
+    
+    res.json(historial);
+});
+
+// POST /api/Inspecciones -> Registrar una nueva inspección
+app.post('/api/Inspecciones', (req, res) => {
+    const nuevaInspeccion = {
+        id: idInspeccionActual++,
+        vehiculoId: req.body.vehiculoId,
+        fecha: req.body.fecha,
+        resultado: req.body.resultado,
+        observaciones: req.body.observaciones
+    };
+    inspecciones.push(nuevaInspeccion);
+    res.status(201).json(nuevaInspeccion);
 });
 
 // ==========================================
