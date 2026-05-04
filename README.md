@@ -123,6 +123,76 @@ Elimina un vehículo del sistema de manera permanente.
 
 ---
 
+## Endpoints de Inspecciones
+
+### 6. Obtener todas las inspecciones
+Obtiene un historial global de todas las inspecciones.
+
+* **URL:** `/api/Inspecciones`
+* **Método HTTP:** `GET`
+* **Respuesta Exitosa (200 OK):**
+  ```json
+  [
+    {
+      "id": 1,
+      "vehiculoId": 101,
+      "fecha": "2026-05-04",
+      "resultado": "Aprobado",
+      "observaciones": "Frenos en buen estado"
+    }
+  ]
+  ```
+
+---
+
+### 7. Obtener inspecciones de un vehículo específico
+Busca y retorna el historial de inspecciones de un vehículo mediante su ID.
+
+* **URL:** `/api/Inspecciones/vehiculo/:id`
+* **Método HTTP:** `GET`
+* **Parámetros de URL:** `id` del vehículo (Ejemplo: `/api/Inspecciones/vehiculo/101`)
+* **Respuesta Exitosa (200 OK):**
+  ```json
+  [
+    {
+      "id": 1,
+      "vehiculoId": 101,
+      "fecha": "2026-05-04",
+      "resultado": "Aprobado",
+      "observaciones": "Frenos en buen estado"
+    }
+  ]
+  ```
+
+---
+
+### 8. Agregar una inspección nueva
+Registra una nueva inspección asociada a un vehículo (`vehiculoId`).
+
+* **URL:** `/api/Inspecciones`
+* **Método HTTP:** `POST`
+* **Cuerpo de la petición (JSON):**
+  ```json
+  {
+    "vehiculoId": 102,
+    "fecha": "2026-06-15",
+    "resultado": "Rechazado",
+    "observaciones": "Llantas desgastadas"
+  }
+  ```
+* **Respuesta Exitosa (201 Created):**
+  ```json
+  {
+    "id": 2,
+    "vehiculoId": 102,
+    "fecha": "2026-06-15",
+    "resultado": "Rechazado",
+    "observaciones": "Llantas desgastadas"
+  }
+  ```
+
+---
+
 ## Ejemplos de uso directo (Frontend / JavaScript)
 
 **Ejemplo de una petición GET (Obtener todos los vehículos):**

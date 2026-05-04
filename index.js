@@ -1,10 +1,27 @@
 const express = require('express');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json()); // Permite recibir JSON en el cuerpo de la petición
+
+// Configuración de Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Vehículos API',
+            version: '1.0.0',
+            description: 'API para la gestión de vehículos e inspecciones',
+        },
+    },
+    apis: ['./index.js'], // Archivo donde buscará la documentación
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Base de datos simulada en memoria
 let vehiculos = [
@@ -25,6 +42,22 @@ let idInspeccionActual = 2;
 // ENDPOINTS (CRUD)
 // ==========================================
 
+/**
+ * @swagger
+ * /api/Vehiculos:
+ *   get:
+ *     summary: Obtener todos los vehículos
+ *     tags: [Vehiculos]
+ *     responses:
+ *       200:
+ *         description: Lista de todos los vehículos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
 // 1. GET /api/Vehiculos -> Obtener todos los vehículos
 app.get('/api/Vehiculos', (req, res) => {
     res.json(vehiculos);
