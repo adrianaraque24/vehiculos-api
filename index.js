@@ -63,6 +63,25 @@ app.get('/api/Vehiculos', (req, res) => {
     res.json(vehiculos);
 });
 
+/**
+ * @swagger
+ * /api/Vehiculos/{id}:
+ *   get:
+ *     summary: Obtener un vehículo específico por ID
+ *     tags: [Vehiculos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del vehículo a buscar
+ *     responses:
+ *       200:
+ *         description: Datos del vehículo
+ *       404:
+ *         description: Vehículo no encontrado
+ */
 // 2. GET /api/Vehiculos/:id -> Obtener un vehículo por ID
 app.get('/api/Vehiculos/:id', (req, res) => {
     const id = parseInt(req.params.id);
@@ -75,6 +94,29 @@ app.get('/api/Vehiculos/:id', (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/Vehiculos:
+ *   post:
+ *     summary: Crear un nuevo vehículo
+ *     tags: [Vehiculos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               marca:
+ *                 type: string
+ *               modelo:
+ *                 type: string
+ *               placa:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Vehículo creado exitosamente
+ */
 // 3. POST /api/Vehiculos -> Crear un nuevo vehículo
 app.post('/api/Vehiculos', (req, res) => {
     const nuevoVehiculo = {
@@ -87,6 +129,38 @@ app.post('/api/Vehiculos', (req, res) => {
     res.status(201).json(nuevoVehiculo);
 });
 
+/**
+ * @swagger
+ * /api/Vehiculos/{id}:
+ *   put:
+ *     summary: Actualizar un vehículo
+ *     tags: [Vehiculos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del vehículo a actualizar
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               marca:
+ *                 type: string
+ *               modelo:
+ *                 type: string
+ *               placa:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Vehículo actualizado
+ *       404:
+ *         description: Vehículo no encontrado
+ */
 // 4. PUT /api/Vehiculos/:id -> Actualizar un vehículo
 app.put('/api/Vehiculos/:id', (req, res) => {
     const id = parseInt(req.params.id);
@@ -106,6 +180,25 @@ app.put('/api/Vehiculos/:id', (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/Vehiculos/{id}:
+ *   delete:
+ *     summary: Eliminar un vehículo
+ *     tags: [Vehiculos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del vehículo a eliminar
+ *     responses:
+ *       200:
+ *         description: Vehículo eliminado exitosamente
+ *       404:
+ *         description: Vehículo no encontrado
+ */
 // 5. DELETE /api/Vehiculos/:id -> Eliminar un vehículo
 app.delete('/api/Vehiculos/:id', (req, res) => {
     const id = parseInt(req.params.id);
@@ -125,11 +218,38 @@ app.delete('/api/Vehiculos/:id', (req, res) => {
 // ENDPOINTS PARA INSPECCIONES
 // ==========================================
 
+/**
+ * @swagger
+ * /api/Inspecciones:
+ *   get:
+ *     summary: Obtener todas las inspecciones
+ *     tags: [Inspecciones]
+ *     responses:
+ *       200:
+ *         description: Lista de todas las inspecciones de todos los vehículos
+ */
 // GET /api/Inspecciones -> Obtener TODAS las inspecciones de todos los vehículos
 app.get('/api/Inspecciones', (req, res) => {
     res.json(inspecciones);
 });
 
+/**
+ * @swagger
+ * /api/Inspecciones/vehiculo/{id}:
+ *   get:
+ *     summary: Obtener las inspecciones de un vehículo específico
+ *     tags: [Inspecciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del vehículo vinculado a las inspecciones
+ *     responses:
+ *       200:
+ *         description: Lista de inspecciones del vehículo
+ */
 // GET /api/Inspecciones/vehiculo/:id -> Obtener las inspecciones de UN vehículo en específico
 app.get('/api/Inspecciones/vehiculo/:id', (req, res) => {
     const vehiculoId = parseInt(req.params.id);
@@ -140,6 +260,32 @@ app.get('/api/Inspecciones/vehiculo/:id', (req, res) => {
     res.json(historial);
 });
 
+/**
+ * @swagger
+ * /api/Inspecciones:
+ *   post:
+ *     summary: Registrar una nueva inspección
+ *     tags: [Inspecciones]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               vehiculoId:
+ *                 type: integer
+ *               fecha:
+ *                 type: string
+ *                 format: date
+ *               resultado:
+ *                 type: string
+ *               observaciones:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Inspección registrada exitosamente
+ */
 // POST /api/Inspecciones -> Registrar una nueva inspección
 app.post('/api/Inspecciones', (req, res) => {
     const nuevaInspeccion = {
